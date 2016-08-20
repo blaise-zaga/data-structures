@@ -1,61 +1,65 @@
 public class Queue
 {
-	private int queue[];
-	private int top;
-	private int bottom;
+	protected int queue[];
+	protected int top;
+	protected int bottom;
 
 	public Queue(int size)
 	{
 		queue = new int[size];
-		top = 0;
-		bottom = 0;
+		top = -1;
+		bottom = -1;
 	}
 
 	public Queue()
 	{
 		queue = new int[20];
-		top = 0;
-		bottom = 0;
+		top = -1;
+		bottom = -1;
 	}
 
 	public void add(int a) throws Exception
 	{
-		if (bottom - top < queue.length)
+		if (bottom - top < queue.length - 1)
 		{
-			queue[bottom % queue.length] = a;
-			bottom += 1;
+			queue[++bottom % queue.length] = a;
+
+			if (top == -1)
+			{
+				top = 0;
+			}
 		}
 		else
 		{
-			throw new Exception("Queue is full.");
+			throw new Exception("Queue is already full.");
 		}
 
 	}
 
 	public int remove() throws Exception
 	{
-		if (top == bottom)
+		if (top > bottom)
 		{
-			throw new Exception("Queue is empty.");
+			throw new Exception("Queue is currently empty.");
 		}
 		else
 		{
-			int i = top % queue.length;
+			int i = getTopIndex();
 			top++;
 			return queue[i];
 		}
 	}
 
-	private int getTopIndex()
+	public int getTopIndex()
 	{
 		int topIndex = top % queue.length;
 		return topIndex;
 	}
 
-	private int getBottomIndex()
+	public int getBottomIndex()
 	{
 		int bottomIndex = bottom % queue.length;
-		return bottomIndex == 0 ? queue.length : bottomIndex;
+		return bottomIndex;
 	}
 
 	public void printState()
@@ -64,7 +68,7 @@ public class Queue
 		System.out.println("Top index : " + getTopIndex());
 		System.out.println("Bottom index : " + getBottomIndex());
 
-		for (int i = top; i < bottom; i++)
+		for (int i = top; i < bottom + 1; i++)
 		{
 			System.out.print(queue[i % queue.length] + " ");
 		}
