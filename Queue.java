@@ -46,10 +46,28 @@ public class Queue
 		}
 	}
 
+	private int getTopIndex()
+	{
+		int topIndex = top % queue.length;
+		return topIndex;
+	}
+
+	private int getBottomIndex()
+	{
+		int bottomIndex = bottom % queue.length;
+		return bottomIndex == 0 ? queue.length : bottomIndex;
+	}
+
 	public void printState()
 	{
 		System.out.println("Queue size : " + queue.length);
-		System.out.println("Top index : " + ((top % queue.length) + 1));
-		System.out.println("Bottom index : " + ((bottom % queue.length) + 1));
+		System.out.println("Top index : " + getTopIndex());
+		System.out.println("Bottom index : " + getBottomIndex());
+
+		for (int i = top; i < bottom; i++)
+		{
+			System.out.print(queue[i % queue.length] + " ");
+		}
+		System.out.println();
 	}
 }
